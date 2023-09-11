@@ -57,6 +57,9 @@ object Build : BuildType({
             version = DotnetMsBuildStep.MSBuildVersion.V17
             args = "-restore -noLogo"
             sdk = "4.7.1"
+            dockerImage = "dariakrup/windows-dotnet:latest"
+            dockerImagePlatform = DotnetMsBuildStep.ImagePlatform.Windows
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
     }
 
