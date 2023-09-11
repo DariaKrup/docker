@@ -2,6 +2,7 @@ import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
+import jetbrains.buildServer.configs.kotlin.buildSteps.DotnetBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.DotnetMsBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetMsBuild
@@ -47,6 +48,9 @@ object Build : BuildType({
         dotnetBuild {
             projects = "reference-project/reference-project.sln"
             sdk = "4.7.1"
+            dockerImage = "dariakrup/windows-dotnet:latest"
+            dockerImagePlatform = DotnetBuildStep.ImagePlatform.Windows
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
         dotnetMsBuild {
             projects = "reference-project/reference-project.sln"
