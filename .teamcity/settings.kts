@@ -1,4 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.*
+import jetbrains.buildServer.configs.kotlin.amazonEC2CloudImage
+import jetbrains.buildServer.configs.kotlin.amazonEC2CloudProfile
 import jetbrains.buildServer.configs.kotlin.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildFeatures.pullRequests
@@ -35,6 +37,30 @@ version = "2023.05"
 project {
 
     buildType(Build)
+
+    features {
+        amazonEC2CloudImage {
+            id = "PROJECT_EXT_3"
+            profileId = "amazon-1"
+            agentPoolId = "-2"
+            name = "Custom Ubuntu Image"
+            vpcSubnetId = "subnet-0c23f411b0800b216"
+            keyPairName = "daria.krupkina"
+            instanceType = "t2.medium"
+            securityGroups = listOf("sg-072d8bfa0626ea2a6")
+            source = Source("i-053427ef3afaf1215")
+        }
+        amazonEC2CloudProfile {
+            id = "amazon-1"
+            name = "Cloud AWS EC2 Profile"
+            terminateIdleMinutes = 30
+            region = AmazonEC2CloudProfile.Regions.EU_WEST_DUBLIN
+            authType = accessKey {
+                keyId = "credentialsJSON:c4151395-a0a5-4db6-9697-918ebca829e5"
+                secretKey = "credentialsJSON:42f04976-3912-4b71-8161-3e9ca9484e7d"
+            }
+        }
+    }
 }
 
 object Build : BuildType({
